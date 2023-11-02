@@ -1,0 +1,6 @@
+rootProject.name = 'catch-you-server'
+include 'Api'
+include 'Core'
+include 'Domain'
+include 'Infrastructure'
+
