@@ -39,3 +39,4 @@ application-api.properties
 application-core.properties
 application-domain.properties
 /Infrastructure/src/main/resources/application-infrastructure.properties
+application-api.properties
