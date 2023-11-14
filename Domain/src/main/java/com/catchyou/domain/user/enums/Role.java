@@ -1,7 +1,7 @@
 package com.catchyou.domain.user.enums;
 
 public enum Role {
-    USER("ROLE_USER"),
+    DIRECTER("ROLE_DIRECTOR"),
     GUEST("ROLE_GUEST"),
     POLICE("ROLE_POLICE");
 
