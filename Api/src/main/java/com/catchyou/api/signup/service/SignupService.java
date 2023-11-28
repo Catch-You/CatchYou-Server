@@ -2,9 +2,7 @@ package com.catchyou.api.signup.service;
 
 import com.catchyou.api.signup.dto.SignupRequest;
 import com.catchyou.core.dto.BaseResponse;
-import com.catchyou.domain.user.UserRepository;
 import com.catchyou.domain.user.adaptor.UserAdaptor;
-import com.catchyou.domain.user.entity.User;
 import com.catchyou.domain.user.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
