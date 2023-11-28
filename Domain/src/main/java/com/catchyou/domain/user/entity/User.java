@@ -2,11 +2,14 @@ package com.catchyou.domain.user.entity;
 
 import com.catchyou.domain.common.BaseTimeEntity;
 import com.catchyou.domain.user.enums.Role;
+import com.catchyou.domain.user.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Optional;
+
+import static com.catchyou.domain.user.enums.Status.N;
 
 @Builder
 @Getter
@@ -29,9 +32,11 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false, length = 60)
     private String password;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private Status isDeleted = N;
 
     public void updatePassword(String password) {
         this.password = password;

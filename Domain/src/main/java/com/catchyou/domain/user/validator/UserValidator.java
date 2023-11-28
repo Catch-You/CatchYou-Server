@@ -16,4 +16,5 @@ public class UserValidator {
             throw new BaseException(UserErrorCode.ALREADY_EXIST_EMAIL);
         }
     }
+
 }
