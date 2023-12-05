@@ -45,34 +45,24 @@ jobs:
         with:
           path: |
             ~/.gradle/caches
-            ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      # 환경별 properties 파일 생성(1) - application.properties
-      - run: mkdir -p ./Api/src/main/resources
-      - run: touch ./Api/src/main/resources/application.properties
-      - run: echo "${{ secrets.APPLICATION }}" > ./Api/src/main/resources/application.properties
-      - run: cat ./Api/src/main/resources/application.properties
-
-      # 환경별 properties 파일 생성(2) - application-core.properties
-      - run: mkdir -p ./Core/src/main/resources
-      - run: touch ./Core/src/main/resources/application-core.properties
-      - run: echo "${{ secrets.APPLICATION_CORE }}" > ./Core/src/main/resources/application-core.properties
-      - run: cat ./Core/src/main/resources/application-core.properties
-
-      # 환경별 properties 파일 생성(3) - application-domain.properties
-      - run: mkdir -p ./Domain/src/main/resources
-      - run: touch ./Domain/src/main/resources/application-domain.properties
-      - run: echo "${{ secrets.APPLICATION_DOMAIN }}" > ./Domain/src/main/resources/application-domain.properties
-      - run: cat ./Domain/src/main/resources/application-domain.properties
-
-      # 환경별 properties 파일 생성(2) - application-infrastructure.properties
-      - run: mkdir -p ./Infrastructure/src/main/resources
-      - run: touch ./Infrastructure/src/main/resources/application-infrastructure.properties
-      - run: echo "${{ secrets.APPLICATION_INFRASTRUCTURE }}" > ./Infrastructure/src/main/resources/application-infrastructure.properties
-      - run: cat ./Infrastructure/src/main/resources/application-infrastructure.properties
+      - name: Set up Environment Properties
+        run: |
+          mkdir -p ./Api/src/main/resources
+          mkdir -p ./Core/src/main/resources
+          mkdir -p ./Domain/src/main/resources
+          mkdir -p ./Infrastructure/src/main/resources
+          touch ./Api/src/main/resources/application.properties
+          touch ./Core/src/main/resources/application-core.properties
+          touch ./Domain/src/main/resources/application-domain.properties
+          touch ./Infrastructure/src/main/resources/application-infrastructure.properties
+          echo "${{ secrets.APPLICATION }}" > ./Api/src/main/resources/application.properties
+          echo "${{ secrets.APPLICATION_CORE }}" > ./Core/src/main/resources/application-core.properties
+          echo "${{ secrets.APPLICATION_DOMAIN }}" > ./Domain/src/main/resources/application-domain.properties
+          echo "${{ secrets.APPLICATION_INFRASTRUCTURE }}" > ./Infrastructure/src/main/resources/application-infrastructure.properties
 
 
       # 3) gradlew  권한 설정
@@ -81,11 +71,23 @@ jobs:
         working-directory: ${{ env.working-directory }}
       
       
-      # 4) gradlew 빌드
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+        run: |
+          ./gradlew clean build -x test
+          ./gradlew :Core:clean :Core:build -x test
+          ./gradlew :Infrastructure:clean :Infrastructure:build -x test
+          ./gradlew :Domain:clean :Domain:build -x test
+          ./gradlew :Api:clean :Api:build -x test
+          
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
         with:
-          arguments: clean build -x test
+          name: jar-files
+          path: |
+            ./Core/build/libs/
+            ./Infrastructure/build/libs/
+            ./Domain/build/libs/
+            ./Api/build/libs/
         
       # AWS 사용자 정보 입력
       - name: Configure AWS credentials
