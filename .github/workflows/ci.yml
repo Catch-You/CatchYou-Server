@@ -4,11 +4,13 @@ name: Java CI with Gradle & Deploy to EC2
 # master 브랜치에 push. pr 되었을 때 실행
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
   pull_request:
     types : 
       - closed
-    branches: [ "master" ]
+    branches:
+      - master
 
 env:
   AWS_REGION: ap-northeast-2
