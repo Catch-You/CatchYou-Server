@@ -64,14 +64,6 @@ jobs:
           echo "${{ secrets.APPLICATION_DOMAIN }}" > ./Domain/src/main/resources/application-domain.properties
           echo "${{ secrets.APPLICATION_INFRASTRUCTURE }}" > ./Infrastructure/src/main/resources/application-infrastructure.properties
 
-      - name: Grant execute permission to scripts
-        run: |
-          chmod +x scripts/start-core.sh
-          chmod +x scripts/start-infrastructure.sh
-          chmod +x scripts/start-domain.sh
-          chmod +x scripts/start-api.sh
-        working-directory: ./scripts
-
       # 3) gradlew  권한 설정
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
