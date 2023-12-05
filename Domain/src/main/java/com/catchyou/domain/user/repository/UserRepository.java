@@ -1,11 +1,10 @@
 package com.catchyou.domain.user.repository;
 
 import com.catchyou.domain.user.entity.User;
-import com.catchyou.domain.user.enums.Status;
+import com.catchyou.domain.common.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Repository

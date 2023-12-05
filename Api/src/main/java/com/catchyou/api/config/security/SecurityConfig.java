@@ -16,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,6 +29,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static com.catchyou.core.consts.CatchyouStatic.API_PREFIX;
 import static com.catchyou.core.consts.CatchyouStatic.IGNORED_LOGGING_URI_SET;
+import static com.catchyou.domain.user.enums.Role.POLICE;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -58,7 +61,9 @@ public class SecurityConfig {
                                         new AntPathRequestMatcher(API_PREFIX + "/signup/**"),
                                 new AntPathRequestMatcher(API_PREFIX + "/auth/login/reissue"))
                                 .permitAll()
-
+                        .requestMatchers(
+                                new AntPathRequestMatcher(API_PREFIX + "/criminal/**")
+                        ).hasRole(String.valueOf(POLICE))
                         .anyRequest().authenticated());
 
         http.apply(filterConfig);

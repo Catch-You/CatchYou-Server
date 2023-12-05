@@ -2,14 +2,11 @@ package com.catchyou.domain.user.entity;
 
 import com.catchyou.domain.common.BaseTimeEntity;
 import com.catchyou.domain.user.enums.Role;
-import com.catchyou.domain.user.enums.Status;
+import com.catchyou.domain.common.Status;
 import jakarta.persistence.*;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
 
-import java.util.Optional;
-
-import static com.catchyou.domain.user.enums.Status.N;
+import static com.catchyou.domain.common.Status.N;
 
 @Builder
 @Getter

@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SignupRequest {
 
     @Email(message = "올바른 이메일 주소를 입력해주세요.")
-    @NotBlank(message = "이메일은 필수 입력입니다.")
     private String email;
 
     @NotBlank(message = "실명은 필수 입력입니다.")

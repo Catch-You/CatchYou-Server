@@ -30,8 +30,6 @@ import static com.catchyou.core.consts.CatchyouStatic.*;
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
-    private final ObjectMapper objectMapper;
-    private final RedisTemplate<String, String> redisTemplate;
 
     @Override
     protected void doFilterInternal(
@@ -50,7 +48,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private String resolveToken(HttpServletRequest request) {
         //쿠키로 만듦
-        Cookie cookie = WebUtils.getCookie(request, REFRESH_TOKEN);
+        Cookie cookie = WebUtils.getCookie(request, ACCESS_TOKEN);
         if(cookie != null)
             return cookie.getValue();
 

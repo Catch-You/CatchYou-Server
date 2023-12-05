@@ -2,7 +2,7 @@ package com.catchyou.domain.user.adaptor;
 
 import com.catchyou.core.annotation.Adaptor;
 import com.catchyou.core.exception.BaseException;
-import com.catchyou.domain.user.enums.Status;
+import com.catchyou.domain.common.Status;
 import com.catchyou.domain.user.repository.UserRepository;
 import com.catchyou.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;

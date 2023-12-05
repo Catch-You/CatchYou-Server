@@ -92,7 +92,9 @@ public class JwtProvider {
     }
 
     public boolean isAccessToken(String token) {
-        return getJws(token).getBody().get(TOKEN_TYPE).equals(ACCESS_TOKEN);
+        String typeClaim = getJws(token).getBody().get(TOKEN_TYPE).toString();
+        log.info("Type claim value: {}", typeClaim);
+        return typeClaim.equals(ACCESS_TOKEN);
     }
 
     public boolean isRefreshToken(String token) {
