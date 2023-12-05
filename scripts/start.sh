@@ -34,10 +34,10 @@ cd $PROJECT_ROOT
 
 # 필요한 jar 파일 복사하여 하나의 jar 파일로 만듦
 echo "Copying required jar files to create catchyou.jar..."
-cp $PROJECT_ROOT/Core/build/libs/core.jar $CATCHYOU_JAR
-cp $PROJECT_ROOT/Infrastructure/build/libs/infrastructure.jar $CATCHYOU_JAR
-cp $PROJECT_ROOT/Domain/build/libs/domain.jar $CATCHYOU_JAR
-cp $PROJECT_ROOT/Api/build/libs/api.jar $CATCHYOU_JAR
+cp $PROJECT_ROOT/Core/build/libs/*.jar $CATCHYOU_JAR
+cp $PROJECT_ROOT/Infrastructure/build/libs/*.jar $CATCHYOU_JAR
+cp $PROJECT_ROOT/Domain/build/libs/*.jar $CATCHYOU_JAR
+cp $PROJECT_ROOT/Api/build/libs/*.jar $CATCHYOU_JAR
 
 # 실행
 
