@@ -45,5 +45,5 @@ echo "$TIME_NOW > $CATCHYOU_JAR 실행" >> $DEPLOY_LOG
 nohup java -jar $CATCHYOU_JAR > $APP_LOG 2> $ERROR_LOG &
 
 
-CURRENT_PID=$(pgrep -f $JAR_FILE)
+CURRENT_PID=$(pgrep -f $CATCHYOU_JAR)
 echo "$TIME_NOW > 실행된 프로세스 아이디 $CURRENT_PID 입니다." >> $DEPLOY_LOG
