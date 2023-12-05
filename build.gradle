@@ -11,6 +11,16 @@ buildscript {
 	}
 }
 
+plugins {
+	id 'org.springframework.boot' version '3.1.5' // 버전은 사용 중인 Spring Boot 버전에 맞게 설정해주세요.
+	// 다른 필요한 플러그인들도 추가하세요
+}
+
+
+springBoot {
+	mainClass.set('com.catchyou.CatchyouApiApplication')
+}
+
 // 하위 모든 프로젝트 공통 세팅
 subprojects {
 	apply plugin: 'java-library'
