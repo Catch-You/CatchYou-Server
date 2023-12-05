@@ -1,6 +1,7 @@
 package com.catchyou.api.criminal.controller;
 
 import com.catchyou.api.criminal.dto.CreateCriminalRequest;
+import com.catchyou.api.criminal.dto.MyCriminalDetailsDto;
 import com.catchyou.api.criminal.dto.UpdateCriminalRequest;
 import com.catchyou.api.criminal.service.CriminalService;
 import com.catchyou.api.signup.dto.SignupRequest;
@@ -14,6 +15,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/criminal")
 public class CriminalController {
     private final CriminalService criminalService;
+
+    //경찰이 자신이 등록한 사건만 상세 조회
+    @GetMapping("/{criminalId}")
+    public MyCriminalDetailsDto getCriminalDetails(@PathVariable Long criminalId) {
+        return criminalService.getCriminalDetails(criminalId);
+    }
 
     @PostMapping
     public BaseResponse<Long> createCriminal(@RequestBody @Valid CreateCriminalRequest request) {

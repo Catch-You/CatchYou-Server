@@ -1,6 +1,7 @@
 package com.catchyou.api.criminal.service;
 
 import com.catchyou.api.criminal.dto.CreateCriminalRequest;
+import com.catchyou.api.criminal.dto.MyCriminalDetailsDto;
 import com.catchyou.api.criminal.dto.UpdateCriminalRequest;
 import com.catchyou.api.config.security.UserUtils;
 import com.catchyou.core.dto.BaseResponse;
@@ -32,6 +33,19 @@ public class CriminalService {
     private final CriminalRepository criminalRepository;
     private final UserAdaptor userAdaptor;
     private final UserUtils userHelper;
+
+    //경찰일 때, 자신이 작성한 사건만 상세 조회
+    public MyCriminalDetailsDto getCriminalDetails(Long criminalId) {
+        User currentUser = userHelper.getCurrentUser();
+
+        Criminal criminal = criminalAdaptor.findById(criminalId);
+        criminalValidator.isValidCriminalUser(criminal, currentUser);   //작성자인지 확인
+
+        return MyCriminalDetailsDto.of(criminal);
+    }
+
+    //경찰일 때, 자신이 작성한 사건만 목록 조회
+
 
     public BaseResponse<Long> createCriminal(CreateCriminalRequest request) {
         User currentUser = userHelper.getCurrentUser();
