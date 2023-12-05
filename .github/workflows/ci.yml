@@ -70,26 +70,10 @@ jobs:
         run: chmod +x gradlew
         working-directory: ${{ env.working-directory }}
 
-      # Core 먼저 빌드
-      - name: Build Core Module
-        run: cd Core && ./gradlew clean build -x test
-
-      # Infrastructure 빌드 (Core 빌드 후)
-      - name: Build Infrastructure Module
-        run: cd Infrastructure && ./gradlew clean build -x test
-
-      # Domain 빌드 (Core, Infrastructure 빌드 후)
-      - name: Build Domain Module
-        run: cd Domain && ./gradlew clean build -x test
-
-      # Api 빌드 (Core, Infrastructure 빌드 후)
-      - name: Build Api Module
-        run: cd Api && ./gradlew clean build -x test
-
-      # 빌드된 파일들을 압축하여 Artifact 생성 (예시: zip 파일)
-      - name: Archive Artifact
-        run: zip -r deployment-package.zip Api/build Core/build Domain/build Infrastructure/build
-
+      - name: Build with Gradle
+        run: ./gradlew build
+        working-directory: ${{ env.working-directory }}
+        
       
       # AWS 사용자 정보 입력
       - name: Configure AWS credentials
