@@ -1,17 +1,19 @@
+# This is a basic workflow to help you get started with Actions
+
 name: Java CI with Gradle & Deploy to EC2
 
-# event trigger
-# master 브랜치에 push. pr 되었을 때 실행
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches:
+    branches: 
       - master
   pull_request:
-    types : 
+    types: 
       - closed
-    branches:
+    branches: 
       - master
-
+      
 env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: catchyou-cicd-bucket
@@ -31,7 +33,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       # 1) 기본 체크아웃
       - name: Checkout
-      - uses: actions/checkout@v1
+        uses: actions/checkout@v1
 
       # JDK setting - github actions에서 사용할 JDK 설정
       - name: Set up JDK 17
