@@ -55,14 +55,17 @@ jobs:
       - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
       - run: cat ./src/main/resources/application.properties
 
-      # gradlew  권한 설정
+      # 3) gradlew  권한 설정
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
         working-directory: ${{ env.working-directory }}
-	
-      # gradle build
+      
+      
+      # 4) gradlew 빌드
       - name: Build with Gradle
-        run: ./gradlew build -x test
+        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+        with:
+          arguments: clean build -x test
 	
       # make zip file
       - name: Make zip file
