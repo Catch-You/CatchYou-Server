@@ -51,10 +51,10 @@ jobs:
 
       - name: Set up Environment Properties
         run: |
-          mkdir -p ./Api/src/main/resources
-          mkdir -p ./Core/src/main/resources
-          mkdir -p ./Domain/src/main/resources
-          mkdir -p ./Infrastructure/src/main/resources
+          mkdir -p ./Api/src/main/resources/
+          mkdir -p ./Core/src/main/resources/
+          mkdir -p ./Domain/src/main/resources/
+          mkdir -p ./Infrastructure/src/main/resources/
           touch ./Api/src/main/resources/application.properties
           touch ./Core/src/main/resources/application-core.properties
           touch ./Domain/src/main/resources/application-domain.properties
