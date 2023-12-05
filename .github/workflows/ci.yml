@@ -12,9 +12,9 @@ on:
 
 env:
   AWS_REGION: ap-northeast-2
-  S3_BUCKET_NAME: wonder-github-actions-s3-bucket
-  CODE_DEPLOY_APPLICATION_NAME: wonder-codedeploy-app
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: wonder-codedeploy-deployment-group
+  S3_BUCKET_NAME: catchyou-cicd-bucket
+  CODE_DEPLOY_APP_NAME: catchyou-deploy
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: catchyou-deploy-group
 
 permissions:
   contents: read
