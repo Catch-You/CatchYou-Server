@@ -1,7 +1,6 @@
 package com.catchyou.api.criminal.service;
 
-import com.catchyou.api.criminal.dto.CreateCriminalRequest;
-import com.catchyou.api.criminal.dto.UpdateCriminalRequest;
+import com.catchyou.api.criminal.dto.*;
 import com.catchyou.api.config.security.UserUtils;
 import com.catchyou.core.dto.BaseResponse;
 import com.catchyou.core.exception.BaseException;
@@ -18,7 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static com.catchyou.core.consts.CatchyouStatic.CATCHYOU_CODE;
 
@@ -32,6 +33,28 @@ public class CriminalService {
     private final CriminalRepository criminalRepository;
     private final UserAdaptor userAdaptor;
     private final UserUtils userHelper;
+
+    //경찰일 때, 자신이 작성한 사건만 상세 조회
+    public MyCriminalDetailsDto getCriminalDetails(Long criminalId) {
+        User currentUser = userHelper.getCurrentUser();
+
+        Criminal criminal = criminalAdaptor.findById(criminalId);
+        criminalValidator.isValidCriminalUser(criminal, currentUser);   //작성자인지 확인
+
+        return MyCriminalDetailsDto.of(criminal);
+    }
+
+    //경찰일 때, 자신이 작성한 사건만 목록 조회
+    public MyCriminalListResponse getCriminalList(){
+        User currentuser = userHelper.getCurrentUser();
+
+        List<MyCriminalListDto> criminalListDtoList = criminalAdaptor.findByUser(currentuser).stream()
+                .map(criminal -> MyCriminalListDto.of(criminal))
+                .collect(Collectors.toList());
+
+        return MyCriminalListResponse.from(criminalListDtoList);
+    }
+
 
     public BaseResponse<Long> createCriminal(CreateCriminalRequest request) {
         User currentUser = userHelper.getCurrentUser();
