@@ -7,6 +7,8 @@ import com.catchyou.domain.criminal.repository.CriminalRepository;
 import com.catchyou.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 import static com.catchyou.domain.criminal.exception.CriminalErrorCode.NOT_FOUND_CRIMINAL;
 
 @Adaptor
@@ -20,6 +22,10 @@ public class CriminalAdaptor {
 
     public Criminal findById(Long id) {
         return criminalRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_CRIMINAL));
+    }
+
+    public List<Criminal> findByUser(User user) {
+        return criminalRepository.findAllByUser(user);
     }
 
 }

@@ -2,6 +2,7 @@ package com.catchyou.api.criminal.controller;
 
 import com.catchyou.api.criminal.dto.CreateCriminalRequest;
 import com.catchyou.api.criminal.dto.MyCriminalDetailsDto;
+import com.catchyou.api.criminal.dto.MyCriminalListResponse;
 import com.catchyou.api.criminal.dto.UpdateCriminalRequest;
 import com.catchyou.api.criminal.service.CriminalService;
 import com.catchyou.api.signup.dto.SignupRequest;
@@ -20,6 +21,12 @@ public class CriminalController {
     @GetMapping("/{criminalId}")
     public MyCriminalDetailsDto getCriminalDetails(@PathVariable Long criminalId) {
         return criminalService.getCriminalDetails(criminalId);
+    }
+
+    //경찰이 자신이 등록한 사건만 목록 조회
+    @GetMapping("/myList")
+    public MyCriminalListResponse getCriminalList(){
+        return criminalService.getCriminalList();
     }
 
     @PostMapping
