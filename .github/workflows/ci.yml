@@ -29,7 +29,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       # 1) 기본 체크아웃
       - name: Checkout
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v1
 
       # JDK setting - github actions에서 사용할 JDK 설정
       - name: Set up JDK 17
@@ -50,10 +50,29 @@ jobs:
             ${{ runner.os }}-gradle-
 
       # 환경별 properties 파일 생성(1) - application.properties
-      - run: mkdir -p ./src/main/resources
-      - run: touch ./src/main/resources/application.properties
-      - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
-      - run: cat ./src/main/resources/application.properties
+      - run: mkdir -p ./Api/src/main/resources
+      - run: touch ./Api/src/main/resources/application.properties
+      - run: echo "${{ secrets.APPLICATION }}" > ./Api/src/main/resources/application.properties
+      - run: cat ./Api/src/main/resources/application.properties
+
+      # 환경별 properties 파일 생성(2) - application-core.properties
+      - run: mkdir -p ./Core/src/main/resources
+      - run: touch ./Core/src/main/resources/application-core.properties
+      - run: echo "${{ secrets.APPLICATION_CORE }}" > ./Core/src/main/resources/application-core.properties
+      - run: cat ./Core/src/main/resources/application-core.properties
+
+      # 환경별 properties 파일 생성(3) - application-domain.properties
+      - run: mkdir -p ./Domain/src/main/resources
+      - run: touch ./Domain/src/main/resources/application-domain.properties
+      - run: echo "${{ secrets.APPLICATION_DOMAIN }}" > ./Domain/src/main/resources/application-domain.properties
+      - run: cat ./Domain/src/main/resources/application-domain.properties
+
+      # 환경별 properties 파일 생성(2) - application-infrastructure.properties
+      - run: mkdir -p ./Infrastructure/src/main/resources
+      - run: touch ./Infrastructure/src/main/resources/application-infrastructure.properties
+      - run: echo "${{ secrets.APPLICATION_INFRASTRUCTURE }}" > ./Infrastructure/src/main/resources/application-infrastructure.properties
+      - run: cat ./Infrastructure/src/main/resources/application-infrastructure.properties
+
 
       # 3) gradlew  권한 설정
       - name: Grant execute permission for gradlew
@@ -66,12 +85,6 @@ jobs:
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
         with:
           arguments: clean build -x test
-
-   
-      # make zip file
-      - name: Make zip file
-        run: zip -qq -r ./$GITHUB_SHA.zip .
-        shell: bash
         
       # AWS 사용자 정보 입력
       - name: Configure AWS credentials
@@ -81,9 +94,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.ACCESS_KEY_SECRET }}
           aws-region: ap-northeast-2
           
-      # S3에 zip 파일 업로드
-      - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://${{ secrets.S3_BUCKET_NAME }}/deploy/$GITHUB_SHA.zip --source .
+      # AWS S3에 업로드
+      - name: Upload to AWS S3
+        run: |
+          aws deploy push \
+            --application-name ${{ env.CODE_DEPLOY_APP_NAME }} \
+            --ignore-hidden-files \
+            --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
+            --source .
         
       # CodeDeploy에 배포 요청
       - name: Code Deploy
