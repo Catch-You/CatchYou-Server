@@ -87,17 +87,13 @@ jobs:
         with:
           arguments: clean build -x test
 
-      - name: Build Api module
-        run: ./gradlew :Api:clean :Api:build -x test
-        
-      - name: Build Core module
-        run: ./gradlew :Core:clean :Core:build -x test
-
-      - name: Build Domain module
-        run: ./gradlew :Domain:clean :Domain:build -x test
-
-      - name: Build Infrastructure module
-        run: ./gradlew :Infrastructure:clean :Infrastructure:build -x test
+      - name: Build modules
+        run: |
+          ./gradlew :Core:clean :Core:build -x test &
+          ./gradlew :Infrastructure:clean :Infrastructure:build -x test &
+          ./gradlew :Domain:clean :Domain:build -x test &
+          ./gradlew :Api:clean :Api:build -x test 
+          wait
         
       # AWS 사용자 정보 입력
       - name: Configure AWS credentials
