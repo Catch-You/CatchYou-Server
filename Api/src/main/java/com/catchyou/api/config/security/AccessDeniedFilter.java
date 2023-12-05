@@ -11,8 +11,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,8 +26,12 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class AccessDeniedFilter extends OncePerRequestFilter {
     private final ObjectMapper objectMapper;
+
+    private AuthenticationTrustResolver authenticationTrustResolver =
+            new AuthenticationTrustResolverImpl();
 
     @Override
     protected void doFilterInternal(
@@ -33,6 +42,12 @@ public class AccessDeniedFilter extends OncePerRequestFilter {
         } catch (BaseException e) {
             exceptionHandle(response, getErrorResponse(e.getErrorCode(), request.getRequestURL().toString()));
         } catch (AccessDeniedException e) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && authentication.isAuthenticated()) {
+                log.error("Access denied for user: {} - Request URL: {} - Role : {}", authentication.getName(), request.getRequestURL(), authentication.getAuthorities());
+            } else {
+                log.error("Access denied for anonymous user - Request URL: {}", request.getRequestURL());
+            }
             ErrorResponse access_denied =
                     new ErrorResponse(
                             GlobalErrorCode.NOT_VALID_ACCESS_TOKEN_ERROR.getErrorDetail(),

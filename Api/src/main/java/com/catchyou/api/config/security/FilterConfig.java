@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -20,6 +21,7 @@ public class FilterConfig extends SecurityConfigurerAdapter<DefaultSecurityFilte
     public void configure(HttpSecurity httpSecurity) {
         httpSecurity.addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter.class);
         httpSecurity.addFilterBefore(jwtExceptionFilter, JwtTokenFilter.class);
-        httpSecurity.addFilterBefore(accessDeniedFilter, FilterSecurityInterceptor.class);
+        httpSecurity.addFilterBefore(accessDeniedFilter, AuthorizationFilter.class);
     }
+
 }

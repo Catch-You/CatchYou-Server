@@ -74,7 +74,11 @@ public class AuthService {
     }
 
     private String resolveRefreshToken(Long userId){
-        return jwtProvider.generateRefreshToken(userId);
+        String refreshToken= jwtProvider.generateRefreshToken(userId);
+        redisTemplate.opsForValue().set(REFRESH_TOKEN + userId, refreshToken);
+        redisTemplate.expire(REFRESH_TOKEN + userId, jwtProvider.getRefreshTokenTTlSecond(),
+                TimeUnit.SECONDS);
+        return refreshToken;
     }
 
     private AuthResponse createAuthResponse(User user){

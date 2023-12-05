@@ -42,3 +42,5 @@ application-domain.properties
 application-api.properties
 application-infrastructure.properties
 /Api/src/main/resources/application.properties
+application-infrastructure.properties
+application-domain.properties

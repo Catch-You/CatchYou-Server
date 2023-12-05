@@ -13,7 +13,6 @@ import java.util.Collections;
 
 @AllArgsConstructor
 @Getter
-@Builder
 public class AuthDetails implements UserDetails {
     private String userId;
 
@@ -21,7 +20,7 @@ public class AuthDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role));
+        return Collections.singleton(new SimpleGrantedAuthority( role));
     }
 
     @Override
@@ -52,10 +51,6 @@ public class AuthDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public static AuthDetails of(String userId, String role) {
-        return AuthDetails.builder().userId(userId).role(role).build();
     }
 
 }
