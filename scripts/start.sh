@@ -2,17 +2,17 @@
 
 # Core 실행
 echo "Starting Core module..."
-bash scripts/start-core.sh
+bash ./start-core.sh
 
 # Infrastructure 실행
 echo "Starting Infrastructure module..."
-bash scripts/start-infrastructure.sh
+bash ./start-infrastructure.sh
 
 # Domain 실행
 echo "Starting Domain module..."
-bash scripts/start-domain.sh
+bash ./start-domain.sh
 
 # Api 실행
 echo "Starting Api module..."
-bash scripts/start-api.sh
+bash ./start-api.sh
 
