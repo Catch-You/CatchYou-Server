@@ -17,7 +17,7 @@ public class CookieHelper {
                 .path("/")
                 .sameSite(SAMESITE_NONE)
                 .httpOnly(true)
-                .secure(true)
+                .secure(false)  //일단 이렇게
                 .maxAge(COOKIE_EXPIRATION)
                 .build();
         HttpHeaders httpHeaders = new HttpHeaders();
