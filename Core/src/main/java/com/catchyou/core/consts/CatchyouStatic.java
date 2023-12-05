@@ -34,4 +34,6 @@ public class CatchyouStatic {
     public static final String PROVIDER= "Server";
     public static final String API_PREFIX = "/api";
 
+    public static final String CATCHYOU_CODE ="CATCHYOU-";
+
 }
