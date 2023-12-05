@@ -74,21 +74,8 @@ jobs:
       - name: Build with Gradle
         run: |
           ./gradlew clean build -x test
-          ./gradlew :Core:clean :Core:build -x test
-          ./gradlew :Infrastructure:clean :Infrastructure:build -x test
-          ./gradlew :Domain:clean :Domain:build -x test
-          ./gradlew :Api:clean :Api:build -x test
           
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: jar-files
-          path: |
-            ./Core/build/libs/
-            ./Infrastructure/build/libs/
-            ./Domain/build/libs/
-            ./Api/build/libs/
-        
+      
       # AWS 사용자 정보 입력
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
