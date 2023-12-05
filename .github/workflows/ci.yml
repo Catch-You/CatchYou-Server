@@ -86,6 +86,18 @@ jobs:
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
         with:
           arguments: clean build -x test
+
+      - name: Build Api module
+        run: ./gradlew :Api:clean :Api:build -x test
+        
+      - name: Build Core module
+        run: ./gradlew :Core:clean :Core:build -x test
+
+      - name: Build Domain module
+        run: ./gradlew :Domain:clean :Domain:build -x test
+
+      - name: Build Infrastructure module
+        run: ./gradlew :Infrastructure:clean :Infrastructure:build -x test
         
       # AWS 사용자 정보 입력
       - name: Configure AWS credentials
