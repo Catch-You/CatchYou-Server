@@ -20,8 +20,8 @@ public class Interview {
     @Column(name = "interview_id")
     private Long id;    //인터뷰 값
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "criminal_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "criminal_id")
     private Criminal criminal;
 
     @Enumerated(EnumType.STRING)

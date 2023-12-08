@@ -17,8 +17,8 @@ public class Montage {
     @Column(name = "montage_id")
     private Long id;    //파일명과 같음
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "interview_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "interview_id")
     private Interview interview;
 
     @Enumerated(EnumType.STRING)
