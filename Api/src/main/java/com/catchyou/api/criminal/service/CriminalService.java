@@ -67,7 +67,7 @@ public class CriminalService {
 
         String criminalCode = createCriminalCode(criminal.getId());
         criminal.updateCriminalCode(criminalCode);
-        criminalRepository.save(criminal);
+        criminalAdaptor.save(criminal);
         return BaseResponse.of("사건 등록되었습니다.", criminal.getId());
     }
 

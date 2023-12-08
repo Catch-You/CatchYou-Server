@@ -18,29 +18,29 @@ public class CriminalController {
     private final CriminalService criminalService;
 
     //경찰이 자신이 등록한 사건만 상세 조회
-    @GetMapping("/{criminalId}")
+    @GetMapping("/police/{criminalId}")
     public MyCriminalDetailsDto getCriminalDetails(@PathVariable Long criminalId) {
         return criminalService.getCriminalDetails(criminalId);
     }
 
     //경찰이 자신이 등록한 사건만 목록 조회
-    @GetMapping("/myList")
+    @GetMapping("/police/myList")
     public MyCriminalListResponse getCriminalList(){
         return criminalService.getCriminalList();
     }
 
-    @PostMapping
+    @PostMapping("/police")
     public BaseResponse<Long> createCriminal(@RequestBody @Valid CreateCriminalRequest request) {
         return criminalService.createCriminal(request);
     }
 
-    @PutMapping("/{criminalId}")
+    @PutMapping("/police/{criminalId}")
     public BaseResponse<Long> updateCriminal(@PathVariable Long criminalId,
                                              @RequestBody @Valid UpdateCriminalRequest request){
         return criminalService.updateCriminal(criminalId, request);
     }
 
-    @PostMapping("/confirm-code/{criminalCode}")
+    @PostMapping("/director/confirm-code/{criminalCode}")
     public BaseResponse<Long> confirmCode(@PathVariable String criminalCode){
         return criminalService.confirmCriminalCode(criminalCode);
     }

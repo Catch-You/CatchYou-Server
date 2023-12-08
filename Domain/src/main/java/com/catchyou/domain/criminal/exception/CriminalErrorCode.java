@@ -28,7 +28,11 @@ public enum CriminalErrorCode implements BaseErrorCode {
     @ExplainError("존재하지 않는 사건 코드로 조회 시 발생하는 오류입니다.")
     NOT_FOUND_CRIMINAL_CODE(NOT_FOUND, "Criminal-404-4", "존재하지 않는 사건 코드입니다."),
     @ExplainError("해당 사건에 이미 몽타주 제작자가 존재하는 경우 발생하는 오류입니다.")
-    CANNOT_REGISTER_TO_CRIMINAL(BAD_REQUEST, "Criminal-400-3", "이미 몽타주 제작자가 존재하는 사건입니다.");
+    CANNOT_REGISTER_TO_CRIMINAL(BAD_REQUEST, "Criminal-400-3", "이미 몽타주 제작자가 존재하는 사건입니다."),
+    @ExplainError("해당 사건에 권한이 없는 몽타주 제작자가 접근하려 할 시 발생하는 오류입니다.")
+    NOT_VALID_CRIMINAL_DIRECTOR(BAD_REQUEST, "Criminal-400-4", "해당 유저가 몽타주를 제작할 수 있는 사건이 아닙니다."),
+    @ExplainError("해당 사건에 대해 이미 확정된 몽타주가 있을 경우 발생하는 오류입니다.")
+    CANNOT_CREATE_MONTAGE(BAD_REQUEST, "Criminal-400-5", "이미 확정된 몽타주가 존재하는 사건입니다.");
 
     private final Integer statusCode;
     private final String errorCode;
