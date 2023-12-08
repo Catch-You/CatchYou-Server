@@ -39,4 +39,10 @@ public class CriminalController {
                                              @RequestBody @Valid UpdateCriminalRequest request){
         return criminalService.updateCriminal(criminalId, request);
     }
+
+    @PostMapping("/confirm-code/{criminalCode}")
+    public BaseResponse<Long> confirmCode(@PathVariable String criminalCode){
+        return criminalService.confirmCriminalCode(criminalCode);
+    }
+
 }

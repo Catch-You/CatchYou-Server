@@ -29,6 +29,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static com.catchyou.core.consts.CatchyouStatic.API_PREFIX;
 import static com.catchyou.core.consts.CatchyouStatic.IGNORED_LOGGING_URI_SET;
+import static com.catchyou.domain.user.enums.Role.DIRECTER;
 import static com.catchyou.domain.user.enums.Role.POLICE;
 
 @Slf4j
@@ -64,6 +65,9 @@ public class SecurityConfig {
                         .requestMatchers(
                                 new AntPathRequestMatcher(API_PREFIX + "/criminal/**")
                         ).hasRole(String.valueOf(POLICE))
+                        .requestMatchers(
+                                new AntPathRequestMatcher(API_PREFIX + "/criminal/confirm-code/**")
+                        ).hasRole(String.valueOf(DIRECTER))
                         .anyRequest().authenticated());
 
         http.apply(filterConfig);

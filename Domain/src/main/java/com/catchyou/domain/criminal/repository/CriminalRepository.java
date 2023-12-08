@@ -15,4 +15,6 @@ public interface CriminalRepository extends JpaRepository<Criminal, Long> {
     boolean existsById(Long id);
 
     List<Criminal> findAllByUser(User user);
+
+    Optional<Criminal> findByCriminalCode(String criminalCode);
 }
