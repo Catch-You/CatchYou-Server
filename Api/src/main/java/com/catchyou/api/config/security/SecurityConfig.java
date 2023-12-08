@@ -63,10 +63,11 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher(API_PREFIX + "/auth/login/reissue"))
                                 .permitAll()
                         .requestMatchers(
-                                new AntPathRequestMatcher(API_PREFIX + "/criminal/**")
+                                new AntPathRequestMatcher(API_PREFIX + "/criminal/police/**")
                         ).hasRole(String.valueOf(POLICE))
                         .requestMatchers(
-                                new AntPathRequestMatcher(API_PREFIX + "/criminal/confirm-code/**")
+                                new AntPathRequestMatcher(API_PREFIX + "/criminal/director/**"),
+                                new AntPathRequestMatcher(API_PREFIX + "/interview/**")
                         ).hasRole(String.valueOf(DIRECTER))
                         .anyRequest().authenticated());
 
