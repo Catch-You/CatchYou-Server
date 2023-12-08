@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum Role {
-    DIRECTER("ROLE_DIRECTOR"),
+    DIRECTOR("ROLE_DIRECTOR"),
     GUEST("ROLE_GUEST"),
     POLICE("ROLE_POLICE");
 
