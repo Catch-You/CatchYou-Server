@@ -20,4 +20,9 @@ public class CriminalValidator {
         if(!Objects.equals(criminal.getUser(), user))
             throw new BaseException(NOT_VALID_CRIMINAL_USER);
     }
+
+    //이미 등록된 몽타주 제작자가 있는지 확인
+    public boolean alreadyExistDirector(Criminal criminal){
+        return criminal.getDirector() != null;
+    }
 }

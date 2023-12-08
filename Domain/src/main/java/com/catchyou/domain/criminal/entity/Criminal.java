@@ -46,6 +46,9 @@ public class Criminal extends BaseTimeEntity {
     private Status selectStatus;    //몽타주 작성 완료 : Y면 완료, N이면 미완료
 
     //여기에 몽타주 객체 연결
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "director_id")
+    private User director;  //작성자(경찰)
 
     public void updateCriminal(String title, String summary,
                                String description, Region region, CrimeType crimeType,
@@ -63,6 +66,10 @@ public class Criminal extends BaseTimeEntity {
     }
     public void updateSelectStatus(){   //완료 상태를 Y로 업데이트
         this.selectStatus = Status.Y;
+    }
+
+    public void updateDirector(User director){
+        this.director = director;
     }
 
 

@@ -22,6 +22,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import static com.catchyou.core.consts.CatchyouStatic.CATCHYOU_CODE;
+import static com.catchyou.domain.criminal.exception.CriminalErrorCode.CANNOT_REGISTER_TO_CRIMINAL;
 
 @Service
 @RequiredArgsConstructor
@@ -86,6 +87,20 @@ public class CriminalService {
         );
         criminalRepository.save(criminal);
         return BaseResponse.of("사건 수정되었습니다.", criminal.getId());
+    }
+
+    //몽타주 제작자일 때, 사건 코드 검사를 통해 사건에 대한 접근 부여받음
+    public BaseResponse<Long> confirmCriminalCode(String criminalCode) {
+        User currentUser = userHelper.getCurrentUser();
+
+        Criminal criminal = criminalAdaptor.findByCriminalCode(criminalCode);
+
+        if(criminalValidator.alreadyExistDirector(criminal))
+            throw new BaseException(CANNOT_REGISTER_TO_CRIMINAL);
+
+        criminal.updateDirector(currentUser);
+        criminalRepository.save(criminal);
+        return BaseResponse.of("사건에 대한 접근이 처리되었습니다.", criminal.getId());
     }
 
 

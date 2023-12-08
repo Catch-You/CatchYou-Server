@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import static com.catchyou.domain.criminal.exception.CriminalErrorCode.NOT_FOUND_CRIMINAL;
+import static com.catchyou.domain.criminal.exception.CriminalErrorCode.NOT_FOUND_CRIMINAL_CODE;
 
 @Adaptor
 @RequiredArgsConstructor
@@ -26,6 +27,11 @@ public class CriminalAdaptor {
 
     public List<Criminal> findByUser(User user) {
         return criminalRepository.findAllByUser(user);
+    }
+
+    public Criminal findByCriminalCode(String criminalCode) {
+        return criminalRepository.findByCriminalCode(criminalCode)
+                .orElseThrow(() -> new BaseException(NOT_FOUND_CRIMINAL_CODE));
     }
 
 }
