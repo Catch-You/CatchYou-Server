@@ -27,7 +27,6 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class MontageService {
     private final UserUtils userHelper;
-    private final UserAdaptor userAdaptor;
     private final MontageAdaptor montageAdaptor;
     private final InterviewAdaptor interviewAdaptor;
     private final InterviewValidator interviewValidator;
