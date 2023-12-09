@@ -9,6 +9,7 @@ import lombok.Getter;
 import java.lang.reflect.Field;
 import java.util.Objects;
 
+import static com.catchyou.core.consts.CatchyouStatic.INTERNAL_SERVER;
 import static com.catchyou.core.consts.CatchyouStatic.NOT_FOUND;
 
 @Getter
