@@ -48,10 +48,11 @@ public class MontageService {
         interviewValidator.isValidCreateInterviewMontage(interview);
 
         Montage montage = request.toEntity(interview);
+        montageAdaptor.save(montage);
 
         //api 호출
         montageApiFeignClient.callMontageApi(request.getPrompt(), montage.getId().toString());
-        montageAdaptor.save(montage);    //성공시에만 저장
+        montageAdaptor.save(montage);
 
         return BaseResponse.of("몽타주가 성공적으로 제작되었습니다.", montage.getId().toString());
     }
