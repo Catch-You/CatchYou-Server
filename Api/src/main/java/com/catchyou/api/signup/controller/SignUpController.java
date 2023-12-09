@@ -30,7 +30,7 @@ public class SignUpController {
     }
 
     //이메일 인증
-    @PostMapping("/mail-confirm/{email}")
+    @GetMapping("/mail-confirm/{email}")
     public BaseResponse<String> mailConfirm(@PathVariable String email) throws Exception {
         return mailService.mailConfirm(email);
     }
