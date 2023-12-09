@@ -29,7 +29,9 @@ public enum GlobalErrorCode implements BaseErrorCode {
     @ExplainError("인증 메일을 보낼 수 없어 발생하는 오류입니다.")
     MAIL_CAN_NOT_SEND_ERROR(INTERNAL_SERVER, "Mail-500-1", "mail sender 에러입니다."),
     @ExplainError("상태 선택 시 존재하지 않은 상태일 경우 발생하는 오류입니다.")
-    NOT_FOUND_STATUS(INTERNAL_SERVER, "Status-404-1", "상태 값은 Y 또는 N이어야 합니다.");
+    NOT_FOUND_STATUS(INTERNAL_SERVER, "Status-404-1", "상태 값은 Y 또는 N이어야 합니다."),
+    @ExplainError("몽타주 제작 api 호출 오류입니다.")
+    CALL_MONTAGE_API_FAILED(INTERNAL_SERVER, "MontageApi-500-1", "몽타주 제작 api 호출 과정에서 오류가 발생했습니다.");
 
 
 

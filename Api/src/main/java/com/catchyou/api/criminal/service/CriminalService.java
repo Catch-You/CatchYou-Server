@@ -31,7 +31,6 @@ import static com.catchyou.domain.criminal.exception.CriminalErrorCode.CANNOT_RE
 public class CriminalService {
     private final CriminalAdaptor criminalAdaptor;
     private final CriminalValidator criminalValidator;
-    private final CriminalRepository criminalRepository;
     private final UserAdaptor userAdaptor;
     private final UserUtils userHelper;
 
@@ -86,7 +85,7 @@ public class CriminalService {
                 request.getTitle(), request.getSummary(), request.getDescription(),
                 request.getRegion(), request.getCrimeType(), request.getStatus()
         );
-        criminalRepository.save(criminal);
+        criminalAdaptor.save(criminal);
         return BaseResponse.of("사건 수정되었습니다.", criminal.getId());
     }
 
@@ -100,7 +99,7 @@ public class CriminalService {
             throw new BaseException(CANNOT_REGISTER_TO_CRIMINAL);
 
         criminal.updateDirector(currentUser);
-        criminalRepository.save(criminal);
+        criminalAdaptor.save(criminal);
         return BaseResponse.of("사건에 대한 접근이 처리되었습니다.", criminal.getId());
     }
 

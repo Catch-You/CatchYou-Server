@@ -8,9 +8,10 @@ repositories {
 dependencies {
     implementation('com.fasterxml.jackson.datatype:jackson-datatype-jdk8')
     implementation('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
-    implementation 'io.github.openfeign:feign-httpclient:12.1'
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.4'
-    implementation 'io.github.openfeign:feign-jackson:12.1'
+    api 'io.github.openfeign:feign-httpclient:12.2'
+    implementation platform('org.springframework.cloud:spring-cloud-dependencies:2022.0.3')
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    api 'io.github.openfeign:feign-jackson:12.2'
     implementation 'org.redisson:redisson:3.19.0'
     implementation project(':Core')
     api "org.springframework.boot:spring-boot-starter-data-redis"
