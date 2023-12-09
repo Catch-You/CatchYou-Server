@@ -66,7 +66,8 @@ public class SecurityConfig {
                         ).hasRole(String.valueOf(POLICE))
                         .requestMatchers(
                                 new AntPathRequestMatcher(API_PREFIX + "/criminal/director/**"),
-                                new AntPathRequestMatcher(API_PREFIX + "/interview/**")
+                                new AntPathRequestMatcher(API_PREFIX + "/interview/**"),
+                                new AntPathRequestMatcher(API_PREFIX + "/montage/**")
                         ).hasRole(String.valueOf(DIRECTOR))
                         .anyRequest().authenticated());
 
