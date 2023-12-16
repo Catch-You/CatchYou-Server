@@ -12,7 +12,9 @@ import com.catchyou.domain.criminal.exception.CriminalErrorCode;
 import com.catchyou.domain.criminal.repository.CriminalRepository;
 import com.catchyou.domain.criminal.validator.CriminalValidator;
 import com.catchyou.domain.interview.adaptor.InterviewAdaptor;
+import com.catchyou.domain.interview.entity.Interview;
 import com.catchyou.domain.montage.adaptor.MontageAdaptor;
+import com.catchyou.domain.montage.entity.Montage;
 import com.catchyou.domain.user.adaptor.UserAdaptor;
 import com.catchyou.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +50,7 @@ public class CriminalService {
         Criminal criminal = criminalAdaptor.findById(criminalId);
         criminalValidator.isValidCriminalUser(criminal, currentUser);   //작성자인지 확인
 
-        return MyCriminalDetailsDto.of(criminal);
+        return getCriminalDetailsDto(criminal);
     }
 
     //경찰일 때, 자신이 작성한 사건만 목록 조회
@@ -138,18 +140,31 @@ public class CriminalService {
         Criminal criminal = criminalAdaptor.findById(criminalId);
         criminalValidator.isValidCriminalDirector(criminal, currentUser);   //몽타주 제작자 권한있는지 확인
 
-        MyCriminalDetailsDto criminalDetailsDto = MyCriminalDetailsDto.of(criminal);
+        MyCriminalDetailsDto criminalDetailsDto = getCriminalDetailsDto(criminal);
 
+        if(criminal.getSelectStatus().equals(Status.N))
+            return DirectorCriminalDetailResponse.from(criminalDetailsDto, null);
+
+        //확정되지 않을 사건일 경우만 필요
         List<InterviewMontageListDto> montages = interviewAdaptor.findSelectStatusInterview(criminal)
                 .stream()
-                .map(interview -> montageAdaptor.findSelectedMontage(interview))
-                .map(montage -> InterviewMontageListDto.of(montage))
+                .map(i -> montageAdaptor.findSelectedMontage(i))
+                .map(m -> InterviewMontageListDto.of(m))
                 .collect(Collectors.toList());
 
 
         return DirectorCriminalDetailResponse.from(criminalDetailsDto, montages);
     }
 
+    private MyCriminalDetailsDto getCriminalDetailsDto(Criminal criminal){
+        if(criminal.getSelectStatus().equals(Status.N))
+             return MyCriminalDetailsDto.of(criminal, null);
+
+        Interview interview = interviewAdaptor.findSelectedInterview(criminal);
+        Montage montage = montageAdaptor.findSelectedMontage(interview);
+
+        return MyCriminalDetailsDto.of(criminal, montage);
+    }
 
     //확인 코드 만들기 : CATCHYOU-(랜덤코드4자리)-(사건아이디)
     private String createCriminalCode(Long criminalId){
