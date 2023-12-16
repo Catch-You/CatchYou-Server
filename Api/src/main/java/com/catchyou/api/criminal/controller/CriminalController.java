@@ -2,6 +2,7 @@ package com.catchyou.api.criminal.controller;
 
 import com.catchyou.api.criminal.dto.*;
 import com.catchyou.api.criminal.service.CriminalService;
+import com.catchyou.api.interview.dto.SelectInterviewMontageRequest;
 import com.catchyou.api.signup.dto.SignupRequest;
 import com.catchyou.core.dto.BaseResponse;
 import jakarta.validation.Valid;
@@ -52,5 +53,12 @@ public class CriminalController {
     @GetMapping("/director/{criminalId}")
     public DirectorCriminalDetailResponse getDirectorCriminalDetails(@PathVariable Long criminalId){
         return criminalService.getDirectorCriminalDetails(criminalId);
+    }
+
+    //제작자가 선택된 여러 몽타주들 중에 사건 몽타주 확정
+    @PostMapping("/director/{criminalId}")
+    public BaseResponse<Long> selectCriminalMontage(@PathVariable Long criminalId,
+                                                    @RequestBody SelectInterviewMontageRequest request){
+        return criminalService.selectCriminalMontage(criminalId, request);
     }
 }

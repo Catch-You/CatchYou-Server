@@ -65,7 +65,7 @@ public class Criminal extends BaseTimeEntity {
         this.criminalCode = criminalCode;
     }
 
-    private void updateSelectStatus(){   //완료 상태를 Y로 업데이트
+    public void updateSelectStatus(){   //완료 상태를 Y로 업데이트
         this.selectStatus = Status.Y;
     }
 
