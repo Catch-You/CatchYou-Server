@@ -85,9 +85,8 @@ public class AuthService {
         return AuthResponse.of(
                 resolveAccessToken(user.getId(), user.getRole().getAuthority()),
                 resolveRefreshToken(user.getId()),
-                user.getId(),
-                jwtProvider.getAccessTokenTTlSecond(),
-                user.getRole()
+                user,
+                jwtProvider.getAccessTokenTTlSecond()
         );
     }
 }

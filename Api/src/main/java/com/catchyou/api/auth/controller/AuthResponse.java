@@ -1,5 +1,6 @@
 package com.catchyou.api.auth.controller;
 
+import com.catchyou.domain.user.entity.User;
 import com.catchyou.domain.user.enums.Role;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,17 +19,20 @@ public class AuthResponse {
 
     private Long accessTokenExpireDate;
 
+    private String userName;
+
     private Role role;
 
     public static AuthResponse of(
-            String accessToken, String refreshToken, Long userId, Long accessTokenExpireDate, Role role
+            String accessToken, String refreshToken, User user, Long accessTokenExpireDate
     ){
         return AuthResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .userId(userId)
+                .userId(user.getId())
                 .accessTokenExpireDate(accessTokenExpireDate)
-                .role(role)
+                .userName(user.getName())
+                .role(user.getRole())
                 .build();
     }
 }
