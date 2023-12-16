@@ -2,6 +2,7 @@ package com.catchyou.domain.criminal.adaptor;
 
 import com.catchyou.core.annotation.Adaptor;
 import com.catchyou.core.exception.BaseException;
+import com.catchyou.domain.common.Status;
 import com.catchyou.domain.criminal.entity.Criminal;
 import com.catchyou.domain.criminal.repository.CriminalRepository;
 import com.catchyou.domain.user.entity.User;
@@ -36,6 +37,10 @@ public class CriminalAdaptor {
     public Criminal findByCriminalCode(String criminalCode) {
         return criminalRepository.findByCriminalCode(criminalCode)
                 .orElseThrow(() -> new BaseException(NOT_FOUND_CRIMINAL_CODE));
+    }
+
+    public List<Criminal> findByStatus(){
+        return criminalRepository.findAllByStatus(Status.Y);
     }
 
 }

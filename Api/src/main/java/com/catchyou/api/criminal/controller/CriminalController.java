@@ -61,4 +61,10 @@ public class CriminalController {
                                                     @RequestBody SelectInterviewMontageRequest request){
         return criminalService.selectCriminalMontage(criminalId, request);
     }
+
+    //일반 유저(미로그인)들이 공개된 사건 리스트 조회
+    @GetMapping("/open")
+    public OpenCriminalListResponse getOpenCriminalList(){
+        return criminalService.getOpenCriminalList();
+    }
 }
