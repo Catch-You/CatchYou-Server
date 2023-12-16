@@ -67,4 +67,10 @@ public class CriminalController {
     public OpenCriminalListResponse getOpenCriminalList(){
         return criminalService.getOpenCriminalList();
     }
+
+    //일반 유저들이 공개된 사건 상세 조회
+    @GetMapping("/open/{criminalId}")
+    public OpenCriminalDetailsDto getOpenCriminalDetails(@PathVariable Long criminalId){
+        return criminalService.getOpenCriminalDetails(criminalId);
+    }
 }
