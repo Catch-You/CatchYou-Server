@@ -17,4 +17,6 @@ public interface CriminalRepository extends JpaRepository<Criminal, Long> {
     List<Criminal> findAllByUser(User user);
 
     Optional<Criminal> findByCriminalCode(String criminalCode);
+
+    List<Criminal> findAllByDirector(User director);
 }

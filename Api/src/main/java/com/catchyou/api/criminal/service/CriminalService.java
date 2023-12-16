@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -49,6 +51,7 @@ public class CriminalService {
         User currentuser = userHelper.getCurrentUser();
 
         List<MyCriminalListDto> criminalListDtoList = criminalAdaptor.findByUser(currentuser).stream()
+                .sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()))
                 .map(criminal -> MyCriminalListDto.of(criminal))
                 .collect(Collectors.toList());
 
@@ -101,6 +104,26 @@ public class CriminalService {
         criminal.updateDirector(currentUser);
         criminalAdaptor.save(criminal);
         return BaseResponse.of("사건에 대한 접근이 처리되었습니다.", criminal.getId());
+    }
+
+    //몽타주 제작자일 때, 자신이 권한부여받은 사건만 목록 조회
+    public DirectorCriminalListResponse getDirectorCriminalList(){
+        User currentuser = userHelper.getCurrentUser();
+
+        //확정되지 않은 사건 -> 생성 순
+        List<MyCriminalListDto> criminalList = criminalAdaptor.findByDirector(currentuser).stream()
+                .sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()))
+                .filter(criminal -> criminal.getSelectStatus().equals(Status.N))
+                .map(criminal -> MyCriminalListDto.of(criminal))
+                .collect(Collectors.toList());
+
+        List<MyCriminalListDto> confirmedCriminalList = criminalAdaptor.findByDirector(currentuser).stream()
+                .sorted((c1, c2) -> c2.getUpdatedAt().compareTo(c1.getUpdatedAt()))
+                .filter(criminal -> criminal.getSelectStatus().equals(Status.Y))
+                .map(criminal -> MyCriminalListDto.of(criminal))
+                .collect(Collectors.toList());
+
+        return DirectorCriminalListResponse.from(criminalList, confirmedCriminalList);
     }
 
 
