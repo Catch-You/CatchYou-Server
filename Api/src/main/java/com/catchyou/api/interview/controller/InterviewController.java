@@ -1,6 +1,7 @@
 package com.catchyou.api.interview.controller;
 
 import com.catchyou.api.interview.dto.InterviewMontageListResponse;
+import com.catchyou.api.interview.dto.SelectInterviewMontageRequest;
 import com.catchyou.api.interview.service.InterviewService;
 import com.catchyou.core.dto.BaseResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,11 @@ public class InterviewController {
     @GetMapping("/montages/{interviewId}")
     public InterviewMontageListResponse getInterviewMontageList(@PathVariable Long interviewId){
         return interviewService.getInterviewMontageList(interviewId);
+    }
+
+    @PostMapping("/montages/{interviewId}")
+    public BaseResponse<Long> selectInterviewMontage(@PathVariable Long interviewId,
+                                                     @RequestBody SelectInterviewMontageRequest request){
+        return interviewService.selectInterviewMontage(interviewId, request);
     }
 }
