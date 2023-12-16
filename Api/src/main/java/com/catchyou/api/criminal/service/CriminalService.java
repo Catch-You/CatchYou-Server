@@ -143,7 +143,7 @@ public class CriminalService {
 
         MyCriminalDetailsDto criminalDetailsDto = getCriminalDetailsDto(criminal);
 
-        if(criminal.getSelectStatus().equals(Status.N))
+        if(criminal.getSelectStatus().equals(Status.Y))
             return DirectorCriminalDetailResponse.from(criminalDetailsDto, null);
 
         //확정되지 않을 사건일 경우만 필요
