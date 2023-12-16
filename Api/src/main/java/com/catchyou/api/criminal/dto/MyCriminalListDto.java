@@ -16,6 +16,8 @@ public class MyCriminalListDto {
 
     private Long userId;
 
+    private String userName;
+
     private String title;   //제목
 
     private CrimeType crimeType;    //사건 종류
@@ -27,6 +29,7 @@ public class MyCriminalListDto {
     public static MyCriminalListDto of(Criminal criminal){
         return MyCriminalListDto.builder()
                 .id(criminal.getId())
+                .userName(criminal.getUser().getName())
                 .userId(criminal.getUser().getId())
                 .title(criminal.getTitle())
                 .crimeType(criminal.getCrimeType())

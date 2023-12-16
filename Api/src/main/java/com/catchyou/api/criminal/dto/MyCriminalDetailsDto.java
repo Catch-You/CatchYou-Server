@@ -4,6 +4,7 @@ import com.catchyou.domain.common.Status;
 import com.catchyou.domain.criminal.entity.Criminal;
 import com.catchyou.domain.criminal.enums.CrimeType;
 import com.catchyou.domain.criminal.enums.Region;
+import com.catchyou.domain.montage.entity.Montage;
 import com.catchyou.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -17,6 +18,8 @@ public class MyCriminalDetailsDto {
     private Long id;    //사건 id
 
     private Long userId;  //작성자(경찰) 아이디
+
+    private String userName;
 
     private String title;   //제목
 
@@ -39,11 +42,17 @@ public class MyCriminalDetailsDto {
     private LocalDateTime updatedAt;
 
     //여기에 몽타주 이미지, 몽타주 작성자 추가
+    private Long montageId;
 
-    public static MyCriminalDetailsDto of(Criminal criminal){
+    private Long directorId;
+
+    private String directorName;
+
+    public static MyCriminalDetailsDto of(Criminal criminal, Montage montage){
         return MyCriminalDetailsDto.builder()
                 .id(criminal.getId())
                 .userId(criminal.getUser().getId())
+                .userName(criminal.getUser().getName())
                 .title(criminal.getTitle())
                 .summary(criminal.getSummary())
                 .description(criminal.getDescription())
@@ -54,6 +63,9 @@ public class MyCriminalDetailsDto {
                 .selectStatus(criminal.getSelectStatus())
                 .createdAt(criminal.getCreatedAt())
                 .updatedAt(criminal.getUpdatedAt())
+                .montageId(montage.getId())
+                .directorId(criminal.getDirector().getId())
+                .directorName(criminal.getDirector().getName())
                 .build();
     }
 }
