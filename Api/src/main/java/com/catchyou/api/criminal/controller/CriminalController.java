@@ -1,9 +1,6 @@
 package com.catchyou.api.criminal.controller;
 
-import com.catchyou.api.criminal.dto.CreateCriminalRequest;
-import com.catchyou.api.criminal.dto.MyCriminalDetailsDto;
-import com.catchyou.api.criminal.dto.MyCriminalListResponse;
-import com.catchyou.api.criminal.dto.UpdateCriminalRequest;
+import com.catchyou.api.criminal.dto.*;
 import com.catchyou.api.criminal.service.CriminalService;
 import com.catchyou.api.signup.dto.SignupRequest;
 import com.catchyou.core.dto.BaseResponse;
@@ -43,6 +40,12 @@ public class CriminalController {
     @PostMapping("/director/confirm-code/{criminalCode}")
     public BaseResponse<Long> confirmCode(@PathVariable String criminalCode){
         return criminalService.confirmCriminalCode(criminalCode);
+    }
+
+    //제작자가 권한부여받은 사건만 목록 조회
+    @GetMapping("/director/myList")
+    public DirectorCriminalListResponse getDirectorCriminalList(){
+        return criminalService.getDirectorCriminalList();
     }
 
 }

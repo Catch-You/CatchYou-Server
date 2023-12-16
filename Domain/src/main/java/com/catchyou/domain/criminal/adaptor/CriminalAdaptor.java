@@ -29,6 +29,10 @@ public class CriminalAdaptor {
         return criminalRepository.findAllByUser(user);
     }
 
+    public List<Criminal> findByDirector(User director){
+        return criminalRepository.findAllByDirector(director);
+    }
+
     public Criminal findByCriminalCode(String criminalCode) {
         return criminalRepository.findByCriminalCode(criminalCode)
                 .orElseThrow(() -> new BaseException(NOT_FOUND_CRIMINAL_CODE));
