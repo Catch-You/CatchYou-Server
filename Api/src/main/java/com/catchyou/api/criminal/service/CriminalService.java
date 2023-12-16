@@ -180,7 +180,7 @@ public class CriminalService {
         return BaseResponse.of("선택한 몽타주가 확정되었습니다.", criminalId);
     }
 
-    //일반 유저들이 공개 몽타주 리스트 볼 수 있게 함
+    //일반 유저들이 공개 사건 리스트 볼 수 있게 함
     public OpenCriminalListResponse getOpenCriminalList(){
 
         //공개된 사건에 대해 dto 리스트 생성
@@ -196,6 +196,14 @@ public class CriminalService {
         return OpenCriminalListResponse.from(openCriminalListDtos);
     }
 
+    //일반 유저들이 공개 사건 상세 조회하도록 함
+    public OpenCriminalDetailsDto getOpenCriminalDetails(Long criminalId){
+        Criminal criminal = criminalAdaptor.findById(criminalId);
+        Interview interview = interviewAdaptor.findSelectedInterview(criminal);
+        Montage montage = montageAdaptor.findSelectedMontage(interview);
+
+        return OpenCriminalDetailsDto.of(criminal, montage);
+    }
 
     private MyCriminalDetailsDto getCriminalDetailsDto(Criminal criminal){
         if(criminal.getSelectStatus().equals(Status.N))
