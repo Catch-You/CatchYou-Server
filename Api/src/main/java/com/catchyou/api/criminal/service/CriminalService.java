@@ -180,6 +180,23 @@ public class CriminalService {
         return BaseResponse.of("선택한 몽타주가 확정되었습니다.", criminalId);
     }
 
+    //일반 유저들이 공개 몽타주 리스트 볼 수 있게 함
+    public OpenCriminalListResponse getOpenCriminalList(){
+
+        //공개된 사건에 대해 dto 리스트 생성
+        List<OpenCriminalListDto> openCriminalListDtos = criminalAdaptor.findByStatus()
+                .stream()
+                .map(criminal -> {
+                    Interview interview = interviewAdaptor.findSelectedInterview(criminal);
+                    Montage montage = montageAdaptor.findSelectedMontage(interview);
+                    return OpenCriminalListDto.of(criminal, montage);
+                })
+                .collect(Collectors.toList());
+
+        return OpenCriminalListResponse.from(openCriminalListDtos);
+    }
+
+
     private MyCriminalDetailsDto getCriminalDetailsDto(Criminal criminal){
         if(criminal.getSelectStatus().equals(Status.N))
              return MyCriminalDetailsDto.of(criminal, null);

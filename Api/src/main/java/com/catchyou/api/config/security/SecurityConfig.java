@@ -59,8 +59,9 @@ public class SecurityConfig {
                 authorizeRequests.requestMatchers(
                                 new AntPathRequestMatcher(API_PREFIX + "/auth/login"),
                                         new AntPathRequestMatcher(API_PREFIX + "/signup/**"),
-                                new AntPathRequestMatcher(API_PREFIX + "/auth/login/reissue"))
-                                .permitAll()
+                                new AntPathRequestMatcher(API_PREFIX + "/auth/login/reissue"),
+                                new AntPathRequestMatcher(API_PREFIX + "/criminal/open/**")
+                        ).permitAll()
                         .requestMatchers(
                                 new AntPathRequestMatcher(API_PREFIX + "/criminal/police/**")
                         ).hasRole(String.valueOf(POLICE))
