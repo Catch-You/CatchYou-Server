@@ -3,6 +3,7 @@ package com.catchyou.api.criminal.service;
 import com.catchyou.api.criminal.dto.*;
 import com.catchyou.api.config.security.UserUtils;
 import com.catchyou.api.interview.dto.InterviewMontageListDto;
+import com.catchyou.api.interview.dto.SelectInterviewMontageRequest;
 import com.catchyou.core.dto.BaseResponse;
 import com.catchyou.core.exception.BaseException;
 import com.catchyou.domain.common.Status;
@@ -154,6 +155,29 @@ public class CriminalService {
 
 
         return DirectorCriminalDetailResponse.from(criminalDetailsDto, montages);
+    }
+
+    //몽타주 제작자가 선택된 몽타주들 중 확정
+    public BaseResponse<Long> selectCriminalMontage(Long criminalId, SelectInterviewMontageRequest request){
+        User currentUser = userHelper.getCurrentUser();
+
+        Criminal criminal = criminalAdaptor.findById(criminalId);
+        criminalValidator.isValidCriminalDirector(criminal, currentUser);
+
+        //확정된 몽타주 이미 있는지 확인
+        criminalValidator.isValidCreateMontage(criminal);
+
+        Montage montage = montageAdaptor.findById(request.getId());
+
+        Interview interview = montage.getInterview();
+
+        interview.updateSelected();
+        interviewAdaptor.save(interview);
+
+        criminal.updateSelectStatus();
+        criminalAdaptor.save(criminal);
+
+        return BaseResponse.of("선택한 몽타주가 확정되었습니다.", criminalId);
     }
 
     private MyCriminalDetailsDto getCriminalDetailsDto(Criminal criminal){
