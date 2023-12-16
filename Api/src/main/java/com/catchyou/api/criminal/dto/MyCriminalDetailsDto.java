@@ -63,7 +63,7 @@ public class MyCriminalDetailsDto {
                 .selectStatus(criminal.getSelectStatus())
                 .createdAt(criminal.getCreatedAt())
                 .updatedAt(criminal.getUpdatedAt())
-                .montageId(montage.getId())
+                .montageId(montage == null ? null : montage.getId())
                 .directorId(criminal.getDirector().getId())
                 .directorName(criminal.getDirector().getName())
                 .build();
