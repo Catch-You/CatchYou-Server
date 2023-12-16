@@ -86,7 +86,8 @@ public class AuthService {
                 resolveAccessToken(user.getId(), user.getRole().getAuthority()),
                 resolveRefreshToken(user.getId()),
                 user.getId(),
-                jwtProvider.getAccessTokenTTlSecond()
+                jwtProvider.getAccessTokenTTlSecond(),
+                user.getRole()
         );
     }
 }
