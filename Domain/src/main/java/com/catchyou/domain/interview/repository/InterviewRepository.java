@@ -16,4 +16,6 @@ public interface InterviewRepository extends JpaRepository<Interview, Long> {
     List<Interview> findAllByCriminal(Criminal criminal);
 
     Optional<Interview> findByCriminalAndSelected(Criminal criminal, Status selected);
+
+    List<Interview> findAllByCriminalAndSelectStatus(Criminal criminal, Status selectStatus);
 }

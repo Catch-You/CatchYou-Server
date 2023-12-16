@@ -31,6 +31,9 @@ public class InterviewAdaptor {
         return interviewRepository.findAllByCriminal(criminal);
     }
 
+    public List<Interview> findSelectStatusInterview(Criminal criminal){
+        return interviewRepository.findAllByCriminalAndSelectStatus(criminal, Status.Y);
+    }
     public Interview findSelectedInterview(Criminal criminal){
         return interviewRepository.findByCriminalAndSelected(criminal, Status.Y)
                 .orElseThrow(() -> new BaseException(NOT_FOUND_SELECTED_INTERVIEW));

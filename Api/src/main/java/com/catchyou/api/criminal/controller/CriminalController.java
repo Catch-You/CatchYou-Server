@@ -48,4 +48,9 @@ public class CriminalController {
         return criminalService.getDirectorCriminalList();
     }
 
+    //제작자가 권한부여받은 사건만 상세 조회
+    @GetMapping("/director/{criminalId}")
+    public DirectorCriminalDetailResponse getDirectorCriminalDetails(@PathVariable Long criminalId){
+        return criminalService.getDirectorCriminalDetails(criminalId);
+    }
 }

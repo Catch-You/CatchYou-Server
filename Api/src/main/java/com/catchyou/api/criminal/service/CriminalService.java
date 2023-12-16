@@ -2,6 +2,7 @@ package com.catchyou.api.criminal.service;
 
 import com.catchyou.api.criminal.dto.*;
 import com.catchyou.api.config.security.UserUtils;
+import com.catchyou.api.interview.dto.InterviewMontageListDto;
 import com.catchyou.core.dto.BaseResponse;
 import com.catchyou.core.exception.BaseException;
 import com.catchyou.domain.common.Status;
@@ -10,6 +11,8 @@ import com.catchyou.domain.criminal.entity.Criminal;
 import com.catchyou.domain.criminal.exception.CriminalErrorCode;
 import com.catchyou.domain.criminal.repository.CriminalRepository;
 import com.catchyou.domain.criminal.validator.CriminalValidator;
+import com.catchyou.domain.interview.adaptor.InterviewAdaptor;
+import com.catchyou.domain.montage.adaptor.MontageAdaptor;
 import com.catchyou.domain.user.adaptor.UserAdaptor;
 import com.catchyou.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +38,8 @@ public class CriminalService {
     private final CriminalValidator criminalValidator;
     private final UserAdaptor userAdaptor;
     private final UserUtils userHelper;
+    private final InterviewAdaptor interviewAdaptor;
+    private final MontageAdaptor montageAdaptor;
 
     //경찰일 때, 자신이 작성한 사건만 상세 조회
     public MyCriminalDetailsDto getCriminalDetails(Long criminalId) {
@@ -124,6 +129,25 @@ public class CriminalService {
                 .collect(Collectors.toList());
 
         return DirectorCriminalListResponse.from(criminalList, confirmedCriminalList);
+    }
+
+    //몽타주 제작자일 때, 자신이 권한부여받은 사건만 상세 조히
+    public DirectorCriminalDetailResponse getDirectorCriminalDetails(Long criminalId){
+        User currentUser = userHelper.getCurrentUser();
+
+        Criminal criminal = criminalAdaptor.findById(criminalId);
+        criminalValidator.isValidCriminalDirector(criminal, currentUser);   //몽타주 제작자 권한있는지 확인
+
+        MyCriminalDetailsDto criminalDetailsDto = MyCriminalDetailsDto.of(criminal);
+
+        List<InterviewMontageListDto> montages = interviewAdaptor.findSelectStatusInterview(criminal)
+                .stream()
+                .map(interview -> montageAdaptor.findSelectedMontage(interview))
+                .map(montage -> InterviewMontageListDto.of(montage))
+                .collect(Collectors.toList());
+
+
+        return DirectorCriminalDetailResponse.from(criminalDetailsDto, montages);
     }
 
 
