@@ -60,7 +60,8 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher(API_PREFIX + "/auth/login"),
                                         new AntPathRequestMatcher(API_PREFIX + "/signup/**"),
                                 new AntPathRequestMatcher(API_PREFIX + "/auth/login/reissue"),
-                                new AntPathRequestMatcher(API_PREFIX + "/criminal/open/**")
+                                new AntPathRequestMatcher(API_PREFIX + "/criminal/open/**"),
+                        new AntPathRequestMatcher(API_PREFIX + "/favicon.ico")
                         ).permitAll()
                         .requestMatchers(
                                 new AntPathRequestMatcher(API_PREFIX + "/criminal/police/**")
