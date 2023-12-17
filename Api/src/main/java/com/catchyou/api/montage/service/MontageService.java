@@ -2,6 +2,7 @@ package com.catchyou.api.montage.service;
 
 import com.catchyou.api.config.security.UserUtils;
 import com.catchyou.api.montage.dto.CreateMontageRequest;
+import com.catchyou.api.montage.dto.MontageResponse;
 import com.catchyou.core.dto.BaseResponse;
 import com.catchyou.domain.criminal.adaptor.CriminalAdaptor;
 import com.catchyou.domain.criminal.entity.Criminal;
@@ -33,7 +34,7 @@ public class MontageService {
     private final CriminalValidator criminalValidator;
     private final MontageApiFeignClient montageApiFeignClient;
 
-    public BaseResponse<String> createMontage(Long interviewId, CreateMontageRequest request){
+    public MontageResponse createMontage(Long interviewId, CreateMontageRequest request){
         User currentUser = userHelper.getCurrentUser();
 
         Interview interview = interviewAdaptor.findById(interviewId);
@@ -54,7 +55,7 @@ public class MontageService {
         montageApiFeignClient.callMontageApi(request.getPrompt(), montage.getId().toString());
         montageAdaptor.save(montage);
 
-        return BaseResponse.of("몽타주가 성공적으로 제작되었습니다.", montage.getId().toString());
+        return MontageResponse.of(request.getPrompt(), montage);
     }
 
 }

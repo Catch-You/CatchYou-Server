@@ -1,6 +1,7 @@
 package com.catchyou.api.montage.controller;
 
 import com.catchyou.api.montage.dto.CreateMontageRequest;
+import com.catchyou.api.montage.dto.MontageResponse;
 import com.catchyou.api.montage.service.MontageService;
 import com.catchyou.core.dto.BaseResponse;
 import jakarta.validation.Valid;
@@ -14,8 +15,8 @@ public class MontageController {
     private final MontageService montageService;
 
     @PostMapping("/create/{interviewId}")
-    public BaseResponse<String> createMontage(@PathVariable Long interviewId,
-                                              @RequestBody @Valid CreateMontageRequest request){
+    public MontageResponse createMontage(@PathVariable Long interviewId,
+                                         @RequestBody @Valid CreateMontageRequest request){
         return montageService.createMontage(interviewId, request);
     }
 }
