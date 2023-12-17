@@ -21,7 +21,7 @@ public class CorsConfig implements WebMvcConfigurer {
         String[] patterns = allowedOriginPatterns.toArray(String[]::new);
         registry.addMapping("/**")
                 .allowedMethods("*")
-                .allowedOriginPatterns("*")
+                .allowedOriginPatterns("*", "http://localhost:5173")
                 .exposedHeaders("Set-Cookie")
                 .allowCredentials(true);
     }
