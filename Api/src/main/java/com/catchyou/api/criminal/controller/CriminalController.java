@@ -5,6 +5,8 @@ import com.catchyou.api.criminal.service.CriminalService;
 import com.catchyou.api.interview.dto.SelectInterviewMontageRequest;
 import com.catchyou.api.signup.dto.SignupRequest;
 import com.catchyou.core.dto.BaseResponse;
+import com.catchyou.domain.criminal.enums.CrimeType;
+import com.catchyou.domain.criminal.enums.Region;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +54,7 @@ public class CriminalController {
     //제작자가 권한부여받은 사건만 상세 조회
     @GetMapping("/director/{criminalId}")
     public DirectorCriminalDetailResponse getDirectorCriminalDetails(@PathVariable Long criminalId){
+
         return criminalService.getDirectorCriminalDetails(criminalId);
     }
 
@@ -64,8 +67,8 @@ public class CriminalController {
 
     //일반 유저(미로그인)들이 공개된 사건 리스트 조회
     @GetMapping("/open")
-    public OpenCriminalListResponse getOpenCriminalList(){
-        return criminalService.getOpenCriminalList();
+    public OpenCriminalListResponse getOpenCriminalList(@RequestParam(value="region", defaultValue = "서울") Region region){
+        return criminalService.getOpenCriminalList(region);
     }
 
     //일반 유저들이 공개된 사건 상세 조회

@@ -2,6 +2,7 @@ package com.catchyou.domain.criminal.repository;
 
 import com.catchyou.domain.common.Status;
 import com.catchyou.domain.criminal.entity.Criminal;
+import com.catchyou.domain.criminal.enums.Region;
 import com.catchyou.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -21,5 +22,5 @@ public interface CriminalRepository extends JpaRepository<Criminal, Long> {
 
     List<Criminal> findAllByDirector(User director);
 
-    List<Criminal> findAllByStatus(Status status);
+    List<Criminal> findAllByStatusAndRegion(Status status, Region region);
 }
