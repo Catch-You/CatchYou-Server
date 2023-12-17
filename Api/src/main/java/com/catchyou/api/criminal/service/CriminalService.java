@@ -189,6 +189,8 @@ public class CriminalService {
         List<Criminal> criminals = criminalAdaptor.findByStatusAndRegion(region);
         //유형별로 다른 dto 생성
 
+        log.debug(region.getName());
+
         return OpenCriminalListResponse.from(
                 getCriminalListByCrimeType(criminals, CrimeType.강도),
                 getCriminalListByCrimeType(criminals, CrimeType.살인),
