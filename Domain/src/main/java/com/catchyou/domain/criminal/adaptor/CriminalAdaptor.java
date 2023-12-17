@@ -4,6 +4,8 @@ import com.catchyou.core.annotation.Adaptor;
 import com.catchyou.core.exception.BaseException;
 import com.catchyou.domain.common.Status;
 import com.catchyou.domain.criminal.entity.Criminal;
+import com.catchyou.domain.criminal.enums.CrimeType;
+import com.catchyou.domain.criminal.enums.Region;
 import com.catchyou.domain.criminal.repository.CriminalRepository;
 import com.catchyou.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +41,8 @@ public class CriminalAdaptor {
                 .orElseThrow(() -> new BaseException(NOT_FOUND_CRIMINAL_CODE));
     }
 
-    public List<Criminal> findByStatus(){
-        return criminalRepository.findAllByStatus(Status.Y);
+    public List<Criminal> findByStatusAndRegion(Region region){
+        return criminalRepository.findAllByStatusAndRegion(Status.Y, region);
     }
 
 }
