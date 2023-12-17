@@ -67,7 +67,7 @@ public class CriminalController {
 
     //일반 유저(미로그인)들이 공개된 사건 리스트 조회
     @GetMapping("/open")
-    public OpenCriminalListResponse getOpenCriminalList(@RequestParam(value="region") Region region){
+    public OpenCriminalListResponse getOpenCriminalList(@RequestParam(value="region", defaultValue = "서울") Region region){
         return criminalService.getOpenCriminalList(region);
     }
 
