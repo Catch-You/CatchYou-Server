@@ -189,99 +189,17 @@ public class CriminalService {
         List<Criminal> criminals = criminalAdaptor.findByStatusAndRegion(region);
         //유형별로 다른 dto 생성
 
-        List<OpenCriminalListDto> robbery = criminals.stream()
-                .filter(criminal -> criminal.getCrimeType().equals(CrimeType.강도))
-                .sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()))
-                .map(criminal -> {
-                    Interview interview = interviewAdaptor.findSelectedInterview(criminal);
-                    Montage montage = montageAdaptor.findSelectedMontage(interview);
-                    return OpenCriminalListDto.of(criminal, montage);
-                })
-                .collect(Collectors.toList());
-
-        List<OpenCriminalListDto> murder = criminals.stream()
-                .filter(criminal -> criminal.getCrimeType().equals(CrimeType.살인))
-                .sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()))
-                .map(criminal -> {
-                    Interview interview = interviewAdaptor.findSelectedInterview(criminal);
-                    Montage montage = montageAdaptor.findSelectedMontage(interview);
-                    return OpenCriminalListDto.of(criminal, montage);
-                })
-                .collect(Collectors.toList());
-
-        List<OpenCriminalListDto> theft = criminals.stream()
-                .filter(criminal -> criminal.getCrimeType().equals(CrimeType.절도))
-                .sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()))
-                .map(criminal -> {
-                    Interview interview = interviewAdaptor.findSelectedInterview(criminal);
-                    Montage montage = montageAdaptor.findSelectedMontage(interview);
-                    return OpenCriminalListDto.of(criminal, montage);
-                })
-                .collect(Collectors.toList());
-
-        List<OpenCriminalListDto> sexCrime = criminals.stream()
-                .filter(criminal -> criminal.getCrimeType().equals(CrimeType.성범죄))
-                .sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()))
-                .map(criminal -> {
-                    Interview interview = interviewAdaptor.findSelectedInterview(criminal);
-                    Montage montage = montageAdaptor.findSelectedMontage(interview);
-                    return OpenCriminalListDto.of(criminal, montage);
-                })
-                .collect(Collectors.toList());
-
-        List<OpenCriminalListDto> arson = criminals.stream()
-                .filter(criminal -> criminal.getCrimeType().equals(CrimeType.방화))
-                .sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()))
-                .map(criminal -> {
-                    Interview interview = interviewAdaptor.findSelectedInterview(criminal);
-                    Montage montage = montageAdaptor.findSelectedMontage(interview);
-                    return OpenCriminalListDto.of(criminal, montage);
-                })
-                .collect(Collectors.toList());
-
-        List<OpenCriminalListDto> fraud = criminals.stream()
-                .filter(criminal -> criminal.getCrimeType().equals(CrimeType.사기))
-                .sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()))
-                .map(criminal -> {
-                    Interview interview = interviewAdaptor.findSelectedInterview(criminal);
-                    Montage montage = montageAdaptor.findSelectedMontage(interview);
-                    return OpenCriminalListDto.of(criminal, montage);
-                })
-                .collect(Collectors.toList());
-
-        List<OpenCriminalListDto> drug = criminals.stream()
-                .filter(criminal -> criminal.getCrimeType().equals(CrimeType.마약))
-                .sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()))
-                .map(criminal -> {
-                    Interview interview = interviewAdaptor.findSelectedInterview(criminal);
-                    Montage montage = montageAdaptor.findSelectedMontage(interview);
-                    return OpenCriminalListDto.of(criminal, montage);
-                })
-                .collect(Collectors.toList());
-
-        List<OpenCriminalListDto> gamble = criminals.stream()
-                .filter(criminal -> criminal.getCrimeType().equals(CrimeType.도박))
-                .sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()))
-                .map(criminal -> {
-                    Interview interview = interviewAdaptor.findSelectedInterview(criminal);
-                    Montage montage = montageAdaptor.findSelectedMontage(interview);
-                    return OpenCriminalListDto.of(criminal, montage);
-                })
-                .collect(Collectors.toList());
-
-        List<OpenCriminalListDto> economicCrime = criminals.stream()
-                .filter(criminal -> criminal.getCrimeType().equals(CrimeType.특경법))
-                .sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()))
-                .map(criminal -> {
-                    Interview interview = interviewAdaptor.findSelectedInterview(criminal);
-                    Montage montage = montageAdaptor.findSelectedMontage(interview);
-                    return OpenCriminalListDto.of(criminal, montage);
-                })
-                .collect(Collectors.toList());
-
-
-        return OpenCriminalListResponse.from(robbery, murder, theft, sexCrime, arson, fraud,
-                drug, gamble, economicCrime);
+        return OpenCriminalListResponse.from(
+                getCriminalListByCrimeType(criminals, CrimeType.강도),
+                getCriminalListByCrimeType(criminals, CrimeType.살인),
+                getCriminalListByCrimeType(criminals, CrimeType.절도),
+                getCriminalListByCrimeType(criminals, CrimeType.성범죄),
+                getCriminalListByCrimeType(criminals, CrimeType.방화),
+                getCriminalListByCrimeType(criminals, CrimeType.사기),
+                getCriminalListByCrimeType(criminals, CrimeType.마약),
+                getCriminalListByCrimeType(criminals, CrimeType.도박),
+                getCriminalListByCrimeType(criminals, CrimeType.특경법)
+        );
     }
 
     //일반 유저들이 공개 사건 상세 조회하도록 함
@@ -336,6 +254,19 @@ public class CriminalService {
                 throw new BaseException(CriminalErrorCode.CANNOT_OPEN_TO_PUBLIC);
         }
 
+    }
+
+    private List<OpenCriminalListDto> getCriminalListByCrimeType(List<Criminal> criminals,
+                                                                 CrimeType crimeType){
+        return criminals.stream()
+                .filter(criminal -> criminal.getCrimeType().equals(crimeType))
+                .sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()))
+                .map(criminal -> {
+                    Interview interview = interviewAdaptor.findSelectedInterview(criminal);
+                    Montage montage = montageAdaptor.findSelectedMontage(interview);
+                    return OpenCriminalListDto.of(criminal, montage);
+                })
+                .collect(Collectors.toList());
     }
 
 }
