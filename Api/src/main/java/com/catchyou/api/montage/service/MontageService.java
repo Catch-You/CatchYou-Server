@@ -35,7 +35,7 @@ public class MontageService {
     private final CriminalValidator criminalValidator;
     private final MontageApiFeignClient montageApiFeignClient;
 
-    public MontageResponse createMontage(Long interviewId, String prompt){
+    public MontageResponse createMontage(Long interviewId, CreateMontageRequest request){
         User currentUser = userHelper.getCurrentUser();
 
         Interview interview = interviewAdaptor.findById(interviewId);
@@ -49,20 +49,15 @@ public class MontageService {
         //인터뷰에서 확정된 몽타주가 있는지 확인
         interviewValidator.isValidCreateInterviewMontage(interview);
 
-        Montage montage = montageAdaptor.save(
-                Montage.builder()
-                        .interview(interview)
-                        .selected(Status.N)
-                        .build()
-        );
+        Montage montage = request.toEntity(interview);
 
         montageAdaptor.save(montage);
 
         //api 호출
-        montageApiFeignClient.callMontageApi(prompt, montage.getId().toString());
+        montageApiFeignClient.callMontageApi(request.getPrompt(), montage.getId().toString());
         montageAdaptor.save(montage);
 
-        return MontageResponse.of(prompt, montage);
+        return MontageResponse.of(request.getPrompt(), montage);
     }
 
 }
