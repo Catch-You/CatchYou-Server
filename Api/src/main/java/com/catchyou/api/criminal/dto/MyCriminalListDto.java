@@ -26,6 +26,8 @@ public class MyCriminalListDto {
 
     private Status selectStatus;    //몽타주 확정 상태
 
+    private String criminalCode;
+
     public static MyCriminalListDto of(Criminal criminal){
         return MyCriminalListDto.builder()
                 .id(criminal.getId())
@@ -35,6 +37,7 @@ public class MyCriminalListDto {
                 .crimeType(criminal.getCrimeType())
                 .status(criminal.getStatus())
                 .selectStatus(criminal.getSelectStatus())
+                .criminalCode(criminal.getCriminalCode())
                 .build();
     }
 }
