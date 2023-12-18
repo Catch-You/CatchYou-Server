@@ -56,7 +56,10 @@ public class SecurityConfig {
                 );
 
         http.authorizeHttpRequests((authorizeRequests) ->
-                authorizeRequests.requestMatchers(
+                authorizeRequests
+                        .requestMatchers(new AntPathRequestMatcher("/**/wfuchs.de/**"))
+                        .denyAll()
+                        .requestMatchers(
                                 new AntPathRequestMatcher(API_PREFIX + "/auth/login"),
                                         new AntPathRequestMatcher(API_PREFIX + "/signup/**"),
                                 new AntPathRequestMatcher(API_PREFIX + "/auth/login/reissue"),
