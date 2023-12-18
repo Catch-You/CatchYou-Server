@@ -4,6 +4,7 @@ import com.catchyou.api.config.security.UserUtils;
 import com.catchyou.api.montage.dto.CreateMontageRequest;
 import com.catchyou.api.montage.dto.MontageResponse;
 import com.catchyou.core.dto.BaseResponse;
+import com.catchyou.domain.common.Status;
 import com.catchyou.domain.criminal.adaptor.CriminalAdaptor;
 import com.catchyou.domain.criminal.entity.Criminal;
 import com.catchyou.domain.criminal.validator.CriminalValidator;
@@ -34,7 +35,7 @@ public class MontageService {
     private final CriminalValidator criminalValidator;
     private final MontageApiFeignClient montageApiFeignClient;
 
-    public MontageResponse createMontage(Long interviewId, CreateMontageRequest request){
+    public MontageResponse createMontage(Long interviewId, String prompt){
         User currentUser = userHelper.getCurrentUser();
 
         Interview interview = interviewAdaptor.findById(interviewId);
@@ -48,14 +49,20 @@ public class MontageService {
         //인터뷰에서 확정된 몽타주가 있는지 확인
         interviewValidator.isValidCreateInterviewMontage(interview);
 
-        Montage montage = request.toEntity(interview);
+        Montage montage = montageAdaptor.save(
+                Montage.builder()
+                        .interview(interview)
+                        .selected(Status.N)
+                        .build()
+        );
+
         montageAdaptor.save(montage);
 
         //api 호출
-        montageApiFeignClient.callMontageApi(request.getPrompt(), montage.getId().toString());
+        montageApiFeignClient.callMontageApi(prompt, montage.getId().toString());
         montageAdaptor.save(montage);
 
-        return MontageResponse.of(request.getPrompt(), montage);
+        return MontageResponse.of(prompt, montage);
     }
 
 }
