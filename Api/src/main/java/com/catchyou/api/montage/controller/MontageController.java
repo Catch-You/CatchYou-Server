@@ -16,7 +16,7 @@ public class MontageController {
 
     @PostMapping("/create/{interviewId}")
     public MontageResponse createMontage(@PathVariable Long interviewId,
-                                         @RequestParam String prompt){
-        return montageService.createMontage(interviewId, prompt);
+                                         @RequestBody @Valid CreateMontageRequest request){
+        return montageService.createMontage(interviewId, request);
     }
 }
